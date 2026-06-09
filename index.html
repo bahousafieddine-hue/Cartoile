@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cartoile — Créer mon tableau</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--ink:#0d1117;--gold:#c9a84c;--panel:#161b24;--border:rgba(255,255,255,0.09);--r:6px}
+body{font-family:'Inter',sans-serif;background:var(--ink);color:#fff;min-height:100vh;overflow-x:hidden}
+nav{display:flex;align-items:center;justify-content:space-between;padding:17px 30px;border-bottom:1px solid var(--border);background:var(--ink);position:sticky;top:0;z-index:100}
+.logo{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;letter-spacing:.18em;color:var(--gold);text-transform:uppercase}.logo span{color:#fff}
+.nav-btn{background:var(--gold);color:var(--ink);border:none;padding:10px 20px;font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;border-radius:var(--r)}
+.hero{text-align:center;padding:48px 20px 34px}
+.eyebrow{font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);margin-bottom:13px}
+.h1{font-family:'Cormorant Garamond',serif;font-size:clamp(32px,6vw,60px);font-weight:300;line-height:1.1;margin-bottom:11px}
+.h1 em{font-style:italic;color:var(--gold)}
+.sub{font-size:13px;color:rgba(255,255,255,.4);font-weight:300;letter-spacing:.03em}
+.wrap{display:grid;grid-template-columns:310px 1fr;max-width:1160px;margin:0 auto 60px;padding:0 20px;min-height:620px}
+.panel{background:var(--panel);border:1px solid var(--border);border-radius:8px 0 0 8px;padding:22px 18px;display:flex;flex-direction:column;gap:18px;overflow-y:auto}
+.lbl{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:5px}
+.srow{display:flex;gap:7px}
+input.ti{width:100%;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.11);border-radius:var(--r);color:#fff;font-family:'Inter',sans-serif;font-size:13px;padding:10px 12px;outline:none;transition:border-color .2s}
+input.ti:focus{border-color:var(--gold)}
+input.ti::placeholder{color:rgba(255,255,255,.28)}
+.ibtn{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.11);border-radius:var(--r);color:var(--gold);font-size:15px;padding:0 12px;cursor:pointer;flex-shrink:0}
+.ibtn.go{background:var(--gold);color:var(--ink);padding:0 14px;font-size:16px}
+.suggs{position:absolute;top:100%;left:0;right:0;z-index:999;background:#1d2330;border:1px solid rgba(255,255,255,.11);border-top:none;border-radius:0 0 var(--r) var(--r);max-height:150px;overflow-y:auto}
+.si{padding:8px 12px;font-size:12px;color:rgba(255,255,255,.68);cursor:pointer;border-bottom:1px solid rgba(255,255,255,.05);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.si:hover{background:rgba(201,168,76,.14);color:#fff}
+.swrap{position:relative}
+.tgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.tb{aspect-ratio:1;border-radius:var(--r);border:2px solid transparent;cursor:pointer;position:relative;overflow:hidden;transition:border-color .2s}
+.tb.on{border-color:var(--gold)}
+.tb span{position:absolute;bottom:4px;left:0;right:0;text-align:center;font-size:9px;letter-spacing:.05em;text-transform:uppercase;font-weight:500}
+.t-ink{background:linear-gradient(135deg,#0d1117 50%,#1e2530)}.t-ink span{color:rgba(255,255,255,.6)}
+.t-lune{background:linear-gradient(135deg,#1a1a2e 50%,#16213e)}.t-lune span{color:rgba(180,180,220,.8)}
+.t-sable{background:linear-gradient(135deg,#f0ece0 50%,#e0d8c8)}.t-sable span{color:rgba(60,50,40,.7)}
+.t-foret{background:linear-gradient(135deg,#1a2e1a 50%,#2d4a2d)}.t-foret span{color:rgba(180,220,160,.8)}
+.t-ocre{background:linear-gradient(135deg,#2e1a0a 50%,#4a2e10)}.t-ocre span{color:rgba(230,190,120,.9)}
+.t-brume{background:linear-gradient(135deg,#e8edf2 50%,#d0d8e4)}.t-brume span{color:rgba(60,80,100,.7)}
+.zrow{display:flex;align-items:center;gap:10px}
+.zrow input[type=range]{flex:1;-webkit-appearance:none;height:3px;background:rgba(255,255,255,.14);border-radius:2px;outline:none;cursor:pointer}
+.zrow input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;background:var(--gold);border-radius:50%;cursor:pointer}
+.zv{font-size:12px;color:var(--gold);min-width:20px;text-align:right}
+.fgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.fb{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.11);border-radius:var(--r);color:rgba(255,255,255,.55);font-family:'Inter',sans-serif;font-size:11px;padding:8px 4px;text-align:center;cursor:pointer;transition:all .2s}
+.fb.on{background:rgba(201,168,76,.14);border-color:var(--gold);color:var(--gold)}
+.obtn{background:var(--gold);color:var(--ink);border:none;width:100%;padding:13px;font-family:'Inter',sans-serif;font-size:12px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;border-radius:var(--r);margin-top:auto}
+.pl{text-align:center;font-size:11px;color:rgba(255,255,255,.32)}.pl strong{color:var(--gold);font-size:15px;font-weight:400}
+.stat{font-size:11px;color:rgba(255,255,255,.32);letter-spacing:.04em;min-height:17px;margin-top:2px}.stat.ok{color:rgba(100,210,100,.75)}.stat.er{color:rgba(255,110,90,.75)}
+.prev{background:#090d12;border:1px solid var(--border);border-left:none;border-radius:0 8px 8px 0;display:flex;align-items:center;justify-content:center;padding:32px}
+.poster{position:relative;width:100%;max-width:360px;aspect-ratio:3/4;box-shadow:0 26px 65px rgba(0,0,0,.85),0 0 0 9px #2a2319,0 0 0 11px #1a1510;border-radius:2px;overflow:hidden;background:#0d1117;transition:aspect-ratio .3s}
+#cv{display:block;width:100%;height:75%}
+.ptxt{height:25%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:13px;transition:background .4s}
+.pdiv{width:34px;height:1px;transition:background .4s}
+.ptit{font-family:'Cormorant Garamond',serif;font-size:clamp(13px,2vw,21px);font-weight:600;letter-spacing:.14em;text-transform:uppercase;text-align:center;line-height:1.2}
+.psub{font-family:'Inter',sans-serif;font-size:clamp(7px,.85vw,10px);font-weight:300;letter-spacing:.24em;text-transform:uppercase;text-align:center;opacity:.7}
+.pcoo{font-family:'Inter',sans-serif;font-size:clamp(6px,.75vw,9px);font-weight:300;letter-spacing:.14em;opacity:.38}
+.toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%);background:var(--gold);color:var(--ink);padding:11px 24px;border-radius:100px;font-size:13px;font-weight:500;opacity:0;pointer-events:none;transition:opacity .3s;z-index:9999;white-space:nowrap}
+.toast.on{opacity:1}
+@media(max-width:680px){
+  .wrap{grid-template-columns:1fr}
+  .panel{border-radius:8px 8px 0 0}
+  .prev{border-radius:0 0 8px 8px;border-left:1px solid var(--border);border-top:none;padding:24px 16px}
+}
+</style>
+</head>
+<body>
+<nav>
+  <div class="logo">Cart<span>oile</span></div>
+  <button class="nav-btn" onclick="showToast('Commande bientôt disponible ✨')">Commander — 49€</button>
+</nav>
+<div class="hero">
+  <p class="eyebrow">Tableau personnalisé · Livré encadré</p>
+  <h1 class="h1">Ton lieu.<br><em>Ton œuvre.</em></h1>
+  <p class="sub">Entre une adresse, choisis ton style, reçois ton tableau.</p>
+</div>
+<div class="wrap">
+  <div class="panel">
+    <div>
+      <p class="lbl">📍 Adresse ou lieu</p>
+      <div class="swrap">
+        <div class="srow">
+          <input class="ti" id="si" placeholder="Ex : Tour Eiffel, Paris…" autocomplete="off" onkeydown="if(event.key==='Enter')search()">
+          <button class="ibtn" onclick="geolocate()" title="Ma localisation" id="geobtn">📡</button>
+          <button class="ibtn go" onclick="search()">→</button>
+        </div>
+        <div class="suggs" id="suggs"></div>
+      </div>
+      <div class="stat" id="stat"></div>
+    </div>
+    <div>
+      <p class="lbl">🎨 Thème</p>
+      <div class="tgrid">
+        <div class="tb t-ink on" onclick="setTheme('ink')"><span>Encre</span></div>
+        <div class="tb t-lune" onclick="setTheme('lune')"><span>Lune</span></div>
+        <div class="tb t-sable" onclick="setTheme('sable')"><span>Sable</span></div>
+        <div class="tb t-foret" onclick="setTheme('foret')"><span>Forêt</span></div>
+        <div class="tb t-ocre" onclick="setTheme('ocre')"><span>Ocre</span></div>
+        <div class="tb t-brume" onclick="setTheme('brume')"><span>Brume</span></div>
+      </div>
+    </div>
+    <div>
+      <p class="lbl">✏️ Titre</p>
+      <input class="ti" id="titI" placeholder="Ex : Notre Maison" maxlength="26" oninput="updTxt()">
+    </div>
+    <div>
+      <p class="lbl">✏️ Sous-titre</p>
+      <input class="ti" id="subI" placeholder="Ex : Depuis 2021" maxlength="36" oninput="updTxt()">
+    </div>
+    <div>
+      <p class="lbl">🔍 Zoom</p>
+      <div class="zrow">
+        <span style="font-size:11px;color:rgba(255,255,255,.35)">−</span>
+        <input type="range" id="zsl" min="10" max="18" value="14" oninput="updZoom(this.value)">
+        <span style="font-size:11px;color:rgba(255,255,255,.35)">+</span>
+        <span class="zv" id="zv">14</span>
+      </div>
+    </div>
+    <div>
+      <p class="lbl">📐 Format</p>
+      <div class="fgrid">
+        <button class="fb on" onclick="setFmt(this,'3/4')">30×40</button>
+        <button class="fb" onclick="setFmt(this,'4/5')">40×50</button>
+        <button class="fb" onclick="setFmt(this,'5/7')">50×70</button>
+      </div>
+    </div>
+    <button class="obtn" onclick="showToast('🎉 Commande bientôt disponible !')">Commander ce tableau</button>
+    <p class="pl"><strong>49€</strong> · Livraison offerte · Encadré</p>
+  </div>
+  <div class="prev">
+    <div class="poster" id="poster">
+      <canvas id="cv"></canvas>
+      <div class="ptxt" id="ptxt">
+        <p class="ptit" id="ptit">MON LIEU</p>
+        <div class="pdiv" id="pdiv" style="background:#c9a84c"></div>
+        <p class="psub" id="psub">ENTREZ UNE ADRESSE</p>
+        <p class="pcoo" id="pcoo">48.8566° N · 2.3522° E</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toastEl"></div>
+<script>
+const TH={ink:{bg:'#0d1117',road:'#2c3545',road2:'#1e2835',water:'#0a1520',park:'#111f15',build:'#1a2030',text:'#f0ece0',div:'#c9a84c'},lune:{bg:'#12122a',road:'#252550',road2:'#1a1a40',water:'#080818',park:'#101025',build:'#18183a',text:'#c0c0e8',div:'#7070bb'},sable:{bg:'#f0ece0',road:'#d8d0b4',road2:'#c8c0a0',water:'#b8ccd8',park:'#c8d8b0',build:'#ddd8c8',text:'#2a2010',div:'#907040'},foret:{bg:'#0e1e0e',road:'#204020',road2:'#183018',water:'#081818',park:'#142814',build:'#1a2e1a',text:'#b0e090',div:'#60a030'},ocre:{bg:'#1e1008',road:'#3a2010',road2:'#2a1808',water:'#081018',park:'#161208',build:'#2a1a08',text:'#e8c878',div:'#b07828'},brume:{bg:'#e4eaf0',road:'#c0ccd8',road2:'#b0bcc8',water:'#a8c0d4',park:'#c0d0b8',build:'#d0d8e0',text:'#283848',div:'#5878a0'}};
+let theme='ink',lat=48.8566,lon=2.3522,zoom=14,osmData=null;
+const cv=document.getElementById('cv'),cx=cv.getContext('2d');
+function resizeCv(){const p=document.getElementById('poster');cv.width=p.offsetWidth*(window.devicePixelRatio||1);cv.height=p.offsetHeight*0.75*(window.devicePixelRatio||1);cv.style.width=p.offsetWidth+'px';cv.style.height=(p.offsetHeight*0.75)+'px';drawMap()}
+function drawMap(){const t=TH[theme],W=cv.width,H=cv.height;cx.fillStyle=t.bg;cx.fillRect(0,0,W,H);if(!osmData){drawPlaceholder(t,W,H);return}
+const SCALE=Math.pow(2,zoom)*256;
+function mercY(la){return Math.log(Math.tan(Math.PI/4+la*Math.PI/360))}
+const cMX=(lon+180)/360*SCALE,cMY=(Math.PI-mercY(lat))/(2*Math.PI)*SCALE;
+function toXY(lo,la){const mx=(lo+180)/360*SCALE,my=(Math.PI-mercY(la))/(2*Math.PI)*SCALE;return[W/2+(mx-cMX),H/2+(my-cMY)]}
+const ways=(osmData.elements||[]).filter(e=>e.type==='way'&&e.geometry);
+const dpr=window.devicePixelRatio||1;
+function fillAreas(filter,color){const items=ways.filter(filter);if(!items.length)return;cx.save();cx.fillStyle=color;items.forEach(w=>{const pts=w.geometry;if(!pts||pts.length<3)return;cx.beginPath();const[x0,y0]=toXY(pts[0].lon,pts[0].lat);cx.moveTo(x0,y0);for(let i=1;i<pts.length;i++){const[xi,yi]=toXY(pts[i].lon,pts[i].lat);cx.lineTo(xi,yi)}cx.closePath();cx.fill()});cx.restore()}
+function drawWays(filter,style){cx.save();Object.assign(cx,style);cx.beginPath();ways.filter(filter).forEach(w=>{const pts=w.geometry;if(!pts||pts.length<2)return;const[x0,y0]=toXY(pts[0].lon,pts[0].lat);cx.moveTo(x0,y0);for(let i=1;i<pts.length;i++){const[xi,yi]=toXY(pts[i].lon,pts[i].lat);cx.lineTo(xi,yi)}});cx.stroke();cx.restore()}
+const isWater=w=>['water','riverbank','reservoir'].includes(w.tags?.natural)||['water','river','canal'].includes(w.tags?.waterway);
+const isPark=w=>['park','forest','wood','grass','garden'].includes(w.tags?.leisure)||['park','forest','wood','grass'].includes(w.tags?.landuse)||['wood','scrub','grassland'].includes(w.tags?.natural);
+const isBuild=w=>!!w.tags?.building;
+const isMotorway=w=>['motorway','motorway_link','trunk'].includes(w.tags?.highway);
+const isPrimary=w=>['primary','secondary'].includes(w.tags?.highway);
+const isRoad=w=>['tertiary','residential','unclassified','service'].includes(w.tags?.highway);
+fillAreas(isWater,t.water);fillAreas(isPark,t.park);fillAreas(isBuild,t.build);
+drawWays(isRoad,{strokeStyle:t.road2,lineWidth:1.2*dpr,lineDash:[]});
+drawWays(isPrimary,{strokeStyle:t.road,lineWidth:2.2*dpr,lineDash:[]});
+drawWays(isMotorway,{strokeStyle:t.road,lineWidth:3.5*dpr,lineDash:[]});
+cx.save();cx.beginPath();cx.arc(W/2,H/2,5*dpr,0,Math.PI*2);cx.fillStyle=t.div;cx.fill();cx.restore()}
+function drawPlaceholder(t,W,H){cx.save();cx.strokeStyle=t.road2||'#2a3545';cx.lineWidth=1;cx.globalAlpha=0.3;for(let x=0;x<W;x+=40){cx.beginPath();cx.moveTo(x,0);cx.lineTo(x,H);cx.stroke()}for(let y=0;y<H;y+=40){cx.beginPath();cx.moveTo(0,y);cx.lineTo(W,y);cx.stroke()}cx.globalAlpha=1;cx.fillStyle=t.text||'#f0ece0';cx.font=`${12*(window.devicePixelRatio||1)}px Inter,sans-serif`;cx.textAlign='center';cx.fillText('Entrez une adresse pour afficher la carte',W/2,H/2);cx.restore()}
+let fetchToken=0;
+async function fetchOSM(){const tok=++fetchToken;setStat('Chargement de la carte…','');const delta=0.008*Math.pow(2,14-zoom),bb=`${lat-delta},${lon-delta},${lat+delta},${lon+delta}`,q=`[out:json][timeout:20];(way["highway"](${bb});way["building"](${bb});way["landuse"](${bb});way["leisure"](${bb});way["natural"](${bb});way["waterway"](${bb}););out geom;`;
+try{const r=await fetch('https://overpass-api.de/api/interpreter',{method:'POST',body:'data='+encodeURIComponent(q)});if(!r.ok)throw new Error();const d=await r.json();if(tok!==fetchToken)return;osmData=d;setStat('✓ Carte chargée','ok');drawMap()}catch(e){if(tok!==fetchToken)return;setStat('Erreur chargement','er');drawMap()}}
+let sugTimer;
+document.getElementById('si').addEventListener('input',function(){clearTimeout(sugTimer);const q=this.value.trim();if(q.length<3){document.getElementById('suggs').innerHTML='';return}sugTimer=setTimeout(()=>fetchSuggs(q),420)});
+async function fetchSuggs(q){try{const r=await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&format=json&limit=5&accept-language=fr`),d=await r.json();document.getElementById('suggs').innerHTML=d.map(x=>`<div class="si" onclick="pick(${x.lat},${x.lon},'${x.display_name.replace(/'/g,"\\'")}')"> ${x.display_name}</div>`).join('')}catch(e){}}
+async function search(){const q=document.getElementById('si').value.trim();if(!q)return;setStat('Recherche…','');try{const r=await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&format=json&limit=1&accept-language=fr`),d=await r.json();if(d.length)pick(d[0].lat,d[0].lon,d[0].display_name);else setStat('Lieu introuvable','er')}catch(e){setStat('Erreur réseau','er')}}
+function pick(la,lo,name){lat=parseFloat(la);lon=parseFloat(lo);document.getElementById('suggs').innerHTML='';document.getElementById('si').value=name.split(',')[0];updCoords();if(!document.getElementById('titI').value){const n=name.split(',')[0].toUpperCase().substring(0,26);document.getElementById('titI').value=n;document.getElementById('ptit').textContent=n}osmData=null;fetchOSM()}
+function geolocate(){if(!navigator.geolocation){showToast('Géolocalisation non disponible');return}setStat('Localisation…','');document.getElementById('geobtn').textContent='⏳';navigator.geolocation.getCurrentPosition(pos=>{lat=pos.coords.latitude;lon=pos.coords.longitude;document.getElementById('geobtn').textContent='📡';updCoords();osmData=null;fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json&accept-language=fr`).then(r=>r.json()).then(d=>{const n=(d.address.road||d.address.suburb||d.address.city||'Ma position').toUpperCase().substring(0,26);document.getElementById('si').value=d.display_name.split(',')[0];if(!document.getElementById('titI').value){document.getElementById('titI').value=n;document.getElementById('ptit').textContent=n}setStat('✓ Position trouvée','ok');fetchOSM()}).catch(()=>{setStat('✓ Position trouvée','ok');fetchOSM()})},err=>{document.getElementById('geobtn').textContent='📡';const m={1:'Accès refusé',2:'Position indisponible',3:'Délai dépassé'};setStat(m[err.code]||'Erreur','er')},{timeout:10000})}
+function setTheme(n){theme=n;document.querySelectorAll('.tb').forEach(b=>b.classList.remove('on'));document.querySelector('.t-'+n).classList.add('on');const t=TH[n];document.getElementById('ptxt').style.background=t.bg;['ptit','psub','pcoo'].forEach(id=>document.getElementById(id).style.color=t.text);document.getElementById('pdiv').style.background=t.div;drawMap()}
+function updTxt(){document.getElementById('ptit').textContent=document.getElementById('titI').value.toUpperCase()||'MON LIEU';document.getElementById('psub').textContent=document.getElementById('subI').value.toUpperCase()||'ENTREZ UNE ADRESSE'}
+function updZoom(v){zoom=parseInt(v);document.getElementById('zv').textContent=v;if(osmData){osmData=null;fetchOSM()}else drawMap()}
+function setFmt(btn,ratio){document.querySelectorAll('.fb').forEach(b=>b.classList.remove('on'));btn.classList.add('on');document.getElementById('poster').style.aspectRatio=ratio;setTimeout(resizeCv,60)}
+function updCoords(){const la=Math.abs(lat).toFixed(4)+'° '+(lat>=0?'N':'S'),lo=Math.abs(lon).toFixed(4)+'° '+(lon>=0?'E':'O');document.getElementById('pcoo').textContent=`${la} · ${lo}`}
+function setStat(m,c){const e=document.getElementById('stat');e.textContent=m;e.className='stat '+c}
+function showToast(m){const e=document.getElementById('toastEl');e.textContent=m;e.classList.add('on');setTimeout(()=>e.classList.remove('on'),2800)}
+window.addEventListener('load',()=>{resizeCv();setTheme('ink');updCoords()});
+window.addEventListener('resize',resizeCv);
+</script>
+</body>
+</html>
